@@ -65,7 +65,7 @@
     "time-grunt": "^0.3.1",
     "view-helpers": "^0.1.4",
     "grunt-karma": "^0.8.2",
-    "grunt-mocha-test": "^0.10.2",
+    "grunt-mocha-test": "^0.10.2"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
