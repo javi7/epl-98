@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  db: 'mongodb://localhost/mean-prod',
+  db: 'mongodb://heroku_app31960578:kigu990btpbj8lc121k2dv96e7@ds051740.mongolab.com:51740/heroku_app31960578',
   /**
    * Database options that will be passed directly to mongoose.connect
    * Below are some examples.
