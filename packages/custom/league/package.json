@@ -1,11 +1,11 @@
 {
-  "name": "articles",
+  "name": "league",
   "version": "0.0.1",
-  "description": "Articles example package",
+  "description": "Some description of league",
   "author": {
-    "name": "Linnovate"
+    "name": "mean scaffold"
   },
-  "mean": "0.4.x",
+  "mean": "0.4.0",
   "engines": {
     "node": "0.10.x",
     "npm": "1.4.x"
