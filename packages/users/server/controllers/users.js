@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
+var mongoose = require('mongoose').set('debug', true),
   User = mongoose.model('User'),
   async = require('async'),
   config = require('meanio').loadConfig(),

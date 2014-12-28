@@ -8,12 +8,13 @@ var mongoose = require('mongoose'),
 
 
 /**
- * Review Schema
+ * League Schema
  */
 var TeamSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   owner: {
     type: Schema.ObjectId,
@@ -46,7 +47,7 @@ var TeamSchema = new Schema({
   }
 });
 
-var gameEvents = ['yellow', 'red', 'goal', 'own goal'];
+var gameEvents = ['yellow card', 'red card', 'goal', 'own goal'];
 
 var GameEventSchema = new Schema({
   eventType: {
@@ -61,6 +62,11 @@ var GameEventSchema = new Schema({
 });
 
 var TeamResultSchema = new Schema({
+  teamId: {
+    type: Schema.ObjectId,
+    ref: 'Team',
+    required: true
+  },
   home: {
     type: Boolean,
     required: true
@@ -90,11 +96,62 @@ var GameSchema = new Schema({
 GameSchema.path('teams').validate(function(teams) {
   return teams.length === 2;
 }, 'Must be two teams present');
+
 /**
  * Statics
  */
 
- /* TO-DO */
+TeamSchema.statics.load = function(teamName, cb) {
+  this.findOne({
+    name: teamName
+  }).exec(cb);
+};
+
+TeamSchema.statics.findTeamsForOwner = function(ownerId, cb) {
+  this.find({
+    owner: ownerId
+  }).exec(cb);
+};
+
+GameSchema.statics.load = function(gameId, cb) {
+  this.findOne({
+    _id: gameId
+  }).populate('teams.teamId').exec(cb);
+};
+
+GameSchema.statics.findAllMatchesBetweenTeams = function(teamSets, cb) {
+  this.find({})
+    .and([
+      {'teams': {'$elemMatch': {'teamId': teamSets[0]}}},
+      {'teams': {'$elemMatch': {'teamId': teamSets[1]}}},
+    ])
+    .exec(cb);
+};
+
+GameSchema.statics.findRecentOrUpcomingMatchupBetweenTeams = function(teamSets, cb) {
+  var now = new Date();
+  var startSearch = new Date().setDate(now.getDate() - 4);
+  var endSearch = new Date().setDate(now.getDate() + 3);
+
+  this.find({})
+    .where('date').gte(startSearch).lte(endSearch)
+    .where('played').equals(false)
+    .and([
+      {'teams': {'$elemMatch': {'teamId': {'$in': teamSets[0]}}}},
+      {'teams': {'$elemMatch': {'teamId': {'$in': teamSets[1]}}}},
+    ])
+    .sort('date').populate('teams.teamId').exec(cb);
+};
+
+GameSchema.statics.findEarliestUnplayedMatchupBetweenTeams = function(teamSets, cb) {
+  this.findOne({})
+    .where('played').equals(false)
+    .and([
+      {'teams': {'$elemMatch': {'teamId': {'$in': teamSets[0]}}}},
+      {'teams': {'$elemMatch': {'teamId': {'$in': teamSets[1]}}}},
+    ])
+    .sort('date').populate('teams.teamId').exec(cb);
+};
 
 mongoose.model('Team', TeamSchema);
 mongoose.model('Game', GameSchema);

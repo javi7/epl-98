@@ -1,26 +1,17 @@
 'use strict';
 
+var league = require('../controllers/league.js');
+var teams = require('../controllers/teams.js');
+var games = require('../controllers/games.js');
+
 // The Package is past automatically as first parameter
 module.exports = function(League, app, auth, database) {
 
-  app.get('/league/example/anyone', function(req, res, next) {
-    res.send('Anyone can access this');
-  });
-
-  app.get('/league/example/auth', auth.requiresLogin, function(req, res, next) {
-    res.send('Only authenticated users can access this');
-  });
-
-  app.get('/league/example/admin', auth.requiresAdmin, function(req, res, next) {
-    res.send('Only users with Admin role can access this');
-  });
-
-  app.get('/league/example/render', function(req, res, next) {
-    League.render('index', {
-      package: 'league'
-    }, function(err, html) {
-      //Rendering a view from the Package server/views
-      res.send(html);
-    });
-  });
+  // app.route('/teams').post(league.createTeam);
+  // app.route('/game').post(league.createMatchup);
+  app.route('/findMatchup').get(league.findMatchup);
+  app.route('/team')
+    .get(teams.all);
+  app.route('/game')
+    .put(games.logGame);
 };

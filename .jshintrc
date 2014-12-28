@@ -47,7 +47,7 @@
     "laxbreak"      : false,     // true: Tolerate possibly unsafe line breakings
     "laxcomma"      : false,     // true: Tolerate comma-first style coding
     "loopfunc"      : false,     // true: Tolerate functions being defined in loops
-    "multistr"      : false,     // true: Tolerate multi-line strings
+    "multistr"      : true,     // true: Tolerate multi-line strings
     "proto"         : false,     // true: Tolerate using the `__proto__` property
     "scripturl"     : false,     // true: Tolerate script-targeted URLs
     "shadow"        : false,     // true: Allows re-define variables later in code e.g. `var x=1; x=2;`
@@ -60,7 +60,7 @@
     "couch"         : false,    // CouchDB
     "devel"         : true,     // Development/debugging (alert, confirm, etc)
     "dojo"          : false,    // Dojo Toolkit
-    "jquery"        : false,    // jQuery
+    "jquery"        : true,    // jQuery
     "mootools"      : false,    // MooTools
     "node"          : true,     // Node.js
     "nonstandard"   : false,    // Widely adopted globals (escape, unescape, etc)
