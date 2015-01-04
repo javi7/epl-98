@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.league').controller('LogGameController', ['$scope', '$compile', '$http', '$location', 'Global', 'Teams', 'Games',
-  function($scope, $compile, $http, $location, Global, Teams, Games) {
+angular.module('mean.league').controller('LogGameController', ['$scope', '$compile', '$http', 'Global', 'Teams', 'Games',
+  function($scope, $compile, $http,  Global, Teams, Games) {
     $scope.global = Global;
     $scope.package = {
       name: 'league'
@@ -14,11 +14,6 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
           $scope.teams=teams;
           $scope.inputTeams = ['home', 'away'];
           $scope.eventCount = {'home': 0, 'away': 0};
-          $scope.game = {'home': {}, 'away': {}};
-          if ($location.search().home && $location.search().away && findTeamByName($location.search().home) && findTeamByName($location.search().away)) {
-            $scope.game.home.team = findTeamByName($location.search().home);
-            $scope.game.away.team = findTeamByName($location.search().away);
-          } 
         }
       );
     };
@@ -52,16 +47,7 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
       if (game.teams.length !== 2) {
         alert('error parsing team names!');
       } else {
-        Games.update(
-          game, 
-          function() {
-            window.location.pathname='/#!/league/logGame';
-            window.location.reload();
-          }, 
-          function(err) {
-            alert(err.data);
-          }
-        );
+        Games.update(game);
       }
     };
 
@@ -69,20 +55,16 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
       var mongooseTeam = {'events': []};
       mongooseTeam.goals = angularTeam.score;
       mongooseTeam.home = isHome;
-      mongooseTeam.teamId = angularTeam.team._id;
       for (var eventIdx in angularTeam.events) {
         mongooseTeam.events.push({'eventType': angularTeam.events[eventIdx].eventType, 'player': angularTeam.events[eventIdx].player});
       }
-      return mongooseTeam;
-    };
-
-    var findTeamByName = function(teamName) {
       for (var teamIdx in $scope.teams) {
-        if ($scope.teams[teamIdx].name === teamName) {
-          return $scope.teams[teamIdx];
+        if ($scope.teams[teamIdx].name === angularTeam.team) {
+          mongooseTeam.teamId = $scope.teams[teamIdx]._id;
+          break;
         }
       }
-      return -1;
+      return mongooseTeam;
     };
   }
 ]);

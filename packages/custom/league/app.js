@@ -18,6 +18,7 @@ League.register(function(app, auth, database) {
 
   //We are adding a link to the main menu for all authenticated users
   League.menus.add({
+    roles: ['anonymous','authenticated'],
     title: 'standings',
     link: 'standings',
     menu: 'main'
@@ -26,6 +27,12 @@ League.register(function(app, auth, database) {
     roles: ['authenticated'],
     title: 'log game',
     link: 'log game',
+    menu: 'main'
+  });
+  League.menus.add({
+    roles: ['authenticated'],
+    title: 'find game',
+    link: 'find game',
     menu: 'main'
   });
   

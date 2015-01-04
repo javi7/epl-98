@@ -3,6 +3,7 @@
 var league = require('../controllers/league.js');
 var teams = require('../controllers/teams.js');
 var games = require('../controllers/games.js');
+var owners = require('../controllers/owners.js');
 
 // The Package is past automatically as first parameter
 module.exports = function(League, app, auth, database) {
@@ -14,4 +15,6 @@ module.exports = function(League, app, auth, database) {
     .get(teams.all);
   app.route('/game')
     .put(games.logGame);
+  app.route('/owners')
+    .get(owners.all);
 };

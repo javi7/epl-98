@@ -29,5 +29,16 @@ angular.module('mean.league').config(['$stateProvider',
         loggedin: checkLoggedin
       }
     });
+    $stateProvider.state('standings', {
+      url:'/league/standings',
+      templateUrl: 'league/views/standings.html'
+    });
+    $stateProvider.state('find game', {
+      url: '/league/findGame',
+      templateUrl: 'league/views/findGame.html',
+      resolve: {
+        loggedin: checkLoggedin
+      }
+    });
   }
 ]);

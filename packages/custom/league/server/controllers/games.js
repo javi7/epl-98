@@ -7,13 +7,14 @@ var mongoose = require('mongoose'),
   Game = mongoose.model('Game'),
   Team = mongoose.model('Team');
 
-exports.logGame = function(req, res) {
+exports.logGame = function(req, res, next) {
   var loggedGame = req.body;
 
   Game.findAllMatchesBetweenTeams([loggedGame.teams[0].teamId, loggedGame.teams[1].teamId], function(err, games) {
     if (err) {
       console.log('error finding matchups\n' + err);
       res.json(500, 'fucked up finding dem games');
+      return;
     }
     var matchedGame;
     var teamOneIndex;
@@ -31,6 +32,15 @@ exports.logGame = function(req, res) {
         break;
       }
     }
+    if (!matchedGame) {
+      res.json(500, 'no matchup between those teams found');
+      return;
+    }
+    if (matchedGame.played) {
+      console.log('match already played!');
+      res.json(500, 'game already played');
+      return;
+    }
     matchedGame.teams[teamOneIndex].goals = loggedGame.teams[0].goals;
     matchedGame.teams[teamOneIndex].events = loggedGame.teams[0].events;
     matchedGame.teams[teamTwoIndex].goals = loggedGame.teams[1].goals;
@@ -39,8 +49,10 @@ exports.logGame = function(req, res) {
     matchedGame.save(function(err) {
       if (err) {
         console.log('failed to save game -- ' + matchedGame + ' -- ' + err );
+        res.json(500, 'error saving game -- ' + err);
       } else {
         updateStandings();
+        res.send(200);
       }
     });
   });

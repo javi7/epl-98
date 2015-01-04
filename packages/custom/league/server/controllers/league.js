@@ -79,11 +79,17 @@ exports.findMatchup = function(req, res) {
         callback();
       });
     }, function(err) {
-      Game.findRecentOrUpcomingMatchupBetweenTeams(teamSets, function(err, matchup) {
+      Game.findRecentOrUpcomingMatchupBetweenTeams(teamSets, function(err, matchups) {
         if (err) {
-          res.json(500, {error: 'failed to find a matchup'});
+          res.json(500, {error: 'fucked up finding recent games'});
         }
-        res.json(matchup);
+        Game.findEarliestUnplayedMatchupBetweenTeams(teamSets, function(err, matchup) {
+          if (err) {
+            res.json(500, {error: 'fucked up finding early game'});
+          }
+          matchups.push(matchup);
+          res.json(matchups);
+        });
       });
     }
   );
