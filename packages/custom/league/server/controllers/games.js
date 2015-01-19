@@ -254,13 +254,13 @@ exports.logGame = function(req, res, next) {
         team.losses += 1;
       }
     }
-    /*game.played=false;
-    game.datePlayed=undefined;
-    for (var teamIdx = 0; teamIdx < game.teams.length; teamIdx += 1) {
-      game.teams[teamIdx].goals = 0;
-      game.teams[teamIdx].events = [];
-    }
-    game.save();*/
+    // game.played=false;
+    // game.datePlayed=undefined;
+    // for (var teamIdx = 0; teamIdx < game.teams.length; teamIdx += 1) {
+    //   game.teams[teamIdx].goals = 0;
+    //   game.teams[teamIdx].events = [];
+    // }
+    // game.save();
   };
 
   var suspendPlayer = function(player, gameDate, suspensionCallback) {

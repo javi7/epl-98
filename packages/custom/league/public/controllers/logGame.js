@@ -18,6 +18,8 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
           if ($location.search().home && $location.search().away && findTeamByName($location.search().home) && findTeamByName($location.search().away)) {
             $scope.game.home.team = findTeamByName($location.search().home);
             $scope.game.away.team = findTeamByName($location.search().away);
+            $scope.loadPlayers('home');
+            $scope.loadPlayers('away');
           } 
         }
       );
