@@ -55,7 +55,7 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
         Games.update(
           game, 
           function() {
-            window.location.pathname='/#!/league/logGame';
+            window.location.href= '/#!league/logGame';
             window.location.reload();
           }, 
           function(err) {
@@ -71,7 +71,10 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
       mongooseTeam.home = isHome;
       mongooseTeam.teamId = angularTeam.team._id;
       for (var eventIdx in angularTeam.events) {
-        mongooseTeam.events.push({'eventType': angularTeam.events[eventIdx].eventType, 'player': angularTeam.events[eventIdx].player});
+        var angularEvent = angularTeam.events[eventIdx];
+        if (angularEvent.eventType && angularEvent.player) {
+          mongooseTeam.events.push({'eventType': angularEvent.eventType, 'player': angularEvent.player});
+        }
       }
       return mongooseTeam;
     };

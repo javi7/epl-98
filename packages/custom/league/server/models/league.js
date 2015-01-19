@@ -10,6 +10,17 @@ var mongoose = require('mongoose'),
 /**
  * League Schema
  */
+var SuspensionSchema = new Schema({
+  player: {
+    type: String,
+    required: true
+  },
+  dateSuspended: {
+    type: Date,
+    required: true
+  }
+});
+
 var TeamSchema = new Schema({
   name: {
     type: String,
@@ -43,6 +54,11 @@ var TeamSchema = new Schema({
   },
   goalsAgainst: {
     type: Number,
+    default: 0
+  },
+  suspensions: [SuspensionSchema],
+  lastGamePlayed: {
+    type: Date,
     default: 0
   }
 });
@@ -87,6 +103,37 @@ var GameSchema = new Schema({
   played: {
     type: Boolean,
     default: false
+  },
+  datePlayed: {
+    type: Date
+  }
+});
+
+var PlayerSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  teamId: {
+    type: Schema.ObjectId,
+    ref: 'Team',
+    required: true
+  },
+  goals: {
+    type: Number,
+    default: 0
+  },
+  yellows: {
+    type: Number,
+    default: 0
+  },
+  reds: {
+    type: Number,
+    default: 0
+  },
+  ownGoals: {
+    type: Number,
+    default: 0
   }
 });
 
@@ -155,3 +202,4 @@ GameSchema.statics.findEarliestUnplayedMatchupBetweenTeams = function(teamSets, 
 
 mongoose.model('Team', TeamSchema);
 mongoose.model('Game', GameSchema);
+mongoose.model('Player', PlayerSchema);
