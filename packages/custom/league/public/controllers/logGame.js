@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.league').controller('LogGameController', ['$scope', '$compile', '$http', '$location', 'Global', 'Teams', 'Games',
-  function($scope, $compile, $http, $location, Global, Teams, Games) {
+angular.module('mean.league').controller('LogGameController', ['$scope', '$compile', '$http', '$location', 'Global', 'Teams', 'Games', 'Players',
+  function($scope, $compile, $http, $location, Global, Teams, Games, Players) {
     $scope.global = Global;
     $scope.package = {
       name: 'league'
@@ -24,25 +24,29 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
     };
 
     $scope.addGameEvent = function(inputTeam) {
-      var eventInput = angular.element(
-        '<div class="form-group"> \
-           <div class="col-sm-5">  \
-            <select ng-model="game.' + inputTeam + '.events[' + $scope.eventCount[inputTeam] + '].eventType" name="' + inputTeam + '-event-type-' + $scope.eventCount[inputTeam] + '" class="form-control">  \
-              <option>goal</option>  \
-              <option>yellow card</option>  \
-              <option>red card</option>  \
-              <option>own goal</option>  \
-            </select>  \
-          </div>  \
-          <div class="col-sm-7">  \
-            <input ng-model="game.' + inputTeam + '.events[' + $scope.eventCount[inputTeam] + '].player" name="' + inputTeam + '-event-player-' + $scope.eventCount[inputTeam] + '" class="form-control" placeholder="player">  \
-          </div>  \
-        </div>'
-      );
-      
-      $('#' + inputTeam + '-events').append(eventInput);
-      $compile(eventInput)($scope);
-      $scope.eventCount[inputTeam] += 1;
+      if ($scope.game[inputTeam].team === undefined) {
+        alert('please pick yo squad first\nLove,\nDat nerd kurtis');
+      } else {
+        var eventInput = angular.element(
+          '<div class="form-group game-event-' + inputTeam + '"> \
+             <div class="col-sm-5">  \
+              <select ng-model="game.' + inputTeam + '.events[' + $scope.eventCount[inputTeam] + '].eventType" name="' + inputTeam + '-event-type-' + $scope.eventCount[inputTeam] + '" class="form-control">  \
+                <option>goal</option>  \
+                <option>yellow card</option>  \
+                <option>red card</option>  \
+                <option>own goal</option>  \
+              </select>  \
+            </div>  \
+            <div class="col-sm-7">  \
+              <input auto-complete ui-items="game.' + inputTeam + '.players" ng-model="game.' + inputTeam + '.events[' + $scope.eventCount[inputTeam] + '].player" name="' + inputTeam + '-event-player-' + $scope.eventCount[inputTeam] + '" class="form-control" placeholder="player">  \
+            </div>  \
+          </div>'
+        );
+        
+        $('#' + inputTeam + '-events').append(eventInput);
+        $compile(eventInput)($scope);
+        $scope.eventCount[inputTeam] += 1;
+      }
     };
 
     $scope.logGame = function() {
@@ -63,6 +67,16 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
           }
         );
       }
+    };
+
+    $scope.loadPlayers = function(inputTeam) {
+      Players.query(
+        {'teamId': $scope.game[inputTeam].team._id},
+        function(players) {
+          $scope.game[inputTeam].players=players;
+        }
+      );
+      $('.game-event-' + inputTeam).remove();
     };
 
     var _convertAngularTeamToMongooseTeam = function(angularTeam, isHome) {

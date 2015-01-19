@@ -200,6 +200,11 @@ GameSchema.statics.findEarliestUnplayedMatchupBetweenTeams = function(teamSets, 
     .sort('date').populate('teams.teamId').exec(cb);
 };
 
+PlayerSchema.statics.findAllPlayersForTeam = function(teamId, cb) {
+  this.find({})
+    .where('teamId').equals(teamId).exec(cb);
+};
+
 mongoose.model('Team', TeamSchema);
 mongoose.model('Game', GameSchema);
 mongoose.model('Player', PlayerSchema);
