@@ -1,0 +1,18 @@
+<section data-ng-controller="PlayerStatsController" ng-init="init()">
+  <table class="table table-hover table-responsive">
+    <tr>
+      <th>player</th>
+      <th>goals</th>
+      <th>yellows</th>
+      <th>reds</th>
+      <th>own goals</th>
+    </tr>
+    <tr ng-repeat="player in players | orderBy:'goals':true">
+      <td><strong>{{player.name}}</strong></td>
+      <td>{{player.goals}}</td>
+      <td>{{player.yellows}}</td>
+      <td>{{player.reds}}</td>
+      <td>{{player.ownGoals}}</td>
+    </tr>
+  </table>
+</section>

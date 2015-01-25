@@ -24,6 +24,12 @@ League.register(function(app, auth, database) {
     menu: 'main'
   });
   League.menus.add({
+    roles: ['anonymous','authenticated'],
+    title: 'player stats',
+    link: 'player stats',
+    menu: 'main'
+  });
+  League.menus.add({
     roles: ['authenticated'],
     title: 'log game',
     link: 'log game',

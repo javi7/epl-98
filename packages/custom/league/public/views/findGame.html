@@ -2,11 +2,13 @@
   <form class="form-horizontal" ng-submit="findGame()">
     <div class="form-group">
       <label class="col-md-4 control-label">who you is</label>
+      <div class="col-md-8"> 
         <select ng-model="owner1" ng-options="owner._id as owner.name for owner in owners"></select>
       </div>
     </div>
     <div class="form-group">
       <label class="col-md-4 control-label">who you playing</label>
+      <div class="col-md-8"> 
         <select ng-model="owner2" ng-options="owner._id as owner.name for owner in owners"></select>
       </div>
     </div>

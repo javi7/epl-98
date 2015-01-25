@@ -14,7 +14,7 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
           $scope.teams=teams;
           $scope.inputTeams = ['home', 'away'];
           $scope.eventCount = {'home': 0, 'away': 0};
-          $scope.game = {'home': {}, 'away': {}};
+          $scope.game = {'home': {'events': []}, 'away': {'events': []}};
           if ($location.search().home && $location.search().away && findTeamByName($location.search().home) && findTeamByName($location.search().away)) {
             $scope.game.home.team = findTeamByName($location.search().home);
             $scope.game.away.team = findTeamByName($location.search().away);
@@ -29,24 +29,7 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
       if ($scope.game[inputTeam].team === undefined) {
         alert('please pick yo squad first\nLove,\nDat nerd kurtis');
       } else {
-        var eventInput = angular.element(
-          '<div class="form-group game-event-' + inputTeam + '"> \
-             <div class="col-sm-5">  \
-              <select ng-model="game.' + inputTeam + '.events[' + $scope.eventCount[inputTeam] + '].eventType" name="' + inputTeam + '-event-type-' + $scope.eventCount[inputTeam] + '" class="form-control">  \
-                <option>goal</option>  \
-                <option>yellow card</option>  \
-                <option>red card</option>  \
-                <option>own goal</option>  \
-              </select>  \
-            </div>  \
-            <div class="col-sm-7">  \
-              <input auto-complete ui-items="game.' + inputTeam + '.players" ng-model="game.' + inputTeam + '.events[' + $scope.eventCount[inputTeam] + '].player" name="' + inputTeam + '-event-player-' + $scope.eventCount[inputTeam] + '" class="form-control" placeholder="player">  \
-            </div>  \
-          </div>'
-        );
-        
-        $('#' + inputTeam + '-events').append(eventInput);
-        $compile(eventInput)($scope);
+        $scope.game[inputTeam].events.push({'eventType': '', 'player': ''});
         $scope.eventCount[inputTeam] += 1;
       }
     };
@@ -72,13 +55,13 @@ angular.module('mean.league').controller('LogGameController', ['$scope', '$compi
     };
 
     $scope.loadPlayers = function(inputTeam) {
-      Players.query(
+      Players.forTeam(
         {'teamId': $scope.game[inputTeam].team._id},
         function(players) {
           $scope.game[inputTeam].players=players;
         }
       );
-      $('.game-event-' + inputTeam).remove();
+      $scope.game[inputTeam].events = [];
     };
 
     var _convertAngularTeamToMongooseTeam = function(angularTeam, isHome) {

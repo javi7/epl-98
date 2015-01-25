@@ -40,5 +40,9 @@ angular.module('mean.league').config(['$stateProvider',
         loggedin: checkLoggedin
       }
     });
+    $stateProvider.state('player stats', {
+      url: '/league/playerStats',
+      templateUrl: 'league/views/playerStats.html'
+    });
   }
 ]);

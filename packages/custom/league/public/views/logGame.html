@@ -14,7 +14,20 @@
           <input type="number" name="{{inputTeam}}-score" class="form-control" ng-model="$parent.game[inputTeam].score">
         </div>
       </div>
-      <div id="{{inputTeam}}-events" class="team-events">
+      <div ng-repeat="event in $parent.game[inputTeam].events" id="{{inputTeam}}-events" class="team-events">
+        <div class="form-group game-event-' + inputTeam + '">
+          <div class="col-sm-5">
+            <select ng-model="event.eventType" name="' + inputTeam + '-event-type-' + $scope.eventCount[inputTeam] + '" class="form-control">
+              <option>goal</option>
+              <option>yellow card</option>
+              <option>red card</option>
+              <option>own goal</option>
+            </select>
+          </div>
+          <div class="col-sm-7">
+            <input auto-complete ui-items="$parent.$parent.game.{{$parent.inputTeam}}.players" ng-model="event.player" name="" class="form-control" placeholder="player">
+          </div>
+        </div>
       </div>
       <button class="btn btn-default pull-right" type="button" ng-click="addGameEvent(inputTeam)">add game event</button>
     </div>
