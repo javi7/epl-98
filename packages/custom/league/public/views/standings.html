@@ -13,7 +13,7 @@
         <th>GA</th>
       </tr>
       <tr ng-repeat="team in teams | orderBy:'points':true">
-        <td>{{team.name}} ({{team.owner.name | owner}})</td>
+        <td><strong>{{team.name}}</strong> - <em>({{team.owner.name | owner}})</em></td>
         <td>{{team.wins + team.losses + team.draws}}</td>
         <td>{{team.points}}</td>
         <td>{{team.points / (team.wins + team.losses + team.draws) | number : 2}}</td>
