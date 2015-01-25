@@ -1,5 +1,8 @@
 <section data-ng-controller="StandingsController" ng-init="init()">
-  <div class="col-md-12">
+  <div class="col-md-2 text-center">
+    <button class="btn btn-default" type="button" ng-click="toggleStandings()">see {{inactiveView}} view</button>
+  </div>
+  <div class="col-md-10">
     <table class="table table-hover table-responsive">
       <tr>
         <th>team</th>
@@ -13,7 +16,7 @@
         <th>GA</th>
       </tr>
       <tr ng-repeat="team in teams | orderBy:'points':true">
-        <td><strong>{{team.name}}</strong> - <em>({{team.owner.name | owner}})</em></td>
+        <td><strong>{{team.name}}</strong> <em>{{team.owner.name | owner}}</em></td>
         <td>{{team.wins + team.losses + team.draws}}</td>
         <td>{{team.points}}</td>
         <td>{{team.points / (team.wins + team.losses + team.draws) | number : 2}}</td>

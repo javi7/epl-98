@@ -4,15 +4,15 @@ angular.module('mean.league').filter('owner', [function() {
   return function(input) {
     switch(input) {
       case 'Geoff Brown':
-        return 'Gian';
+        return '(Gian)';
       case 'Javi Muhrer':
-        return 'Javi';
+        return '(Javi)';
       case 'Alex Zorn':
-        return 'Zorn';
+        return '(Zorn)';
       case 'Jordan Rand':
-        return 'JBland';
+        return '(JBland)';
       default:
-        return 'Who dis?';
+        return '';
     }
   };
 }]);
