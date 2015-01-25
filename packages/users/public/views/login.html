@@ -1,32 +1,20 @@
 <div data-ng-controller="LoginCtrl">
-
+  <div class="col-md-12">
     <div class="alert alert-danger animated fadeIn" ng-show="loginerror">{{loginerror}}</div>
 
-    <h2>Login</h2>
-
-    <form id="login_form" ng-submit="login()">
-        <div class="input-wrapper">
-            <input required id="email_block" type="email" name="email" placeholder="Email Address" ng-model="user.email">
-            <div class="error_message">Please enter a correct info #</div>
-            <span class="pic email"></span>
-        </div>
-        <div class="input-wrapper">
-            <input required id="password_block" name="password" type="{{input.type}}" placeholder="{{input.placeholder}}" ng-model="user.password">
-            <div class="error_message">Please enter a correct info #</div>
-                <span class="pic password {{input.iconClass}}" ng-click = "togglePasswordVisible()">
-                      <div class="hide_text_password">
-                          {{input.tooltipText}}
-                      </div>
-                </span>
-        </div>
-        <div class="forgot_password">
-            <a ui-sref='forgot-password'>Forgot your password?</a>
-        </div>
-        <div class="button_login">
-            <button type="submit" class="submit_button">Login</button>
-        </div>
-        <div class="woman_ninja_bottom">
-            <img src="/theme/assets/img/woman_ninja.png" alt="#">
-        </div>
+    <form ng-submit="login()">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input required type="email" class="form-control" id="email_block" placeholder="Enter email" ng-model="user.email">
+        <div class="error_message">Please enter a correct info #</div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input required type="{{input.type}}" class="form-control" id="password_block" placeholder="{{input.placeholder}}" ng-model="user.password">
+        <div class="error_message">Please enter a correct info #</div>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
     </form>
+  </div>
 </div>
+

@@ -3,18 +3,20 @@
     <table class="table table-hover table-responsive">
       <tr>
         <th>team</th>
-        <th>owner</th>
-        <th>points</th>
-        <th>wins</th>
-        <th>losses</th>
-        <th>draws</th>
-        <th>goals</th>
-        <th>conceded</th>
+        <th>GP</th>
+        <th>P</th>
+        <th>P/G</th>
+        <th>W</th>
+        <th>L</th>
+        <th>D</th>
+        <th>GF</th>
+        <th>GA</th>
       </tr>
       <tr ng-repeat="team in teams | orderBy:'points':true">
-        <td>{{team.name}}</td>
-        <td>{{team.owner.name}}</td>
+        <td>{{team.name}} ({{team.owner.name | owner}})</td>
+        <td>{{team.wins + team.losses + team.draws}}</td>
         <td>{{team.points}}</td>
+        <td>{{team.points / (team.wins + team.losses + team.draws) | number : 2}}</td>
         <td>{{team.wins}}</td>
         <td>{{team.losses}}</td>
         <td>{{team.draws}}</td>
