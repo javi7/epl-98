@@ -15,11 +15,14 @@ module.exports = function(League, app, auth, database) {
   app.route('/team')
     .get(teams.all);
   app.route('/game')
+    .get(games.all)
     .put(games.logGame);
   app.route('/owners')
     .get(owners.all);
   app.route('/players')
     .get(players.all);
+  app.route('/pythonPlayers')
+    .put(players.createOrIncrement);
   app.route('/team/:teamId/players')
     .get(players.findAllPlayersForTeam);
 };

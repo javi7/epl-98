@@ -9,6 +9,17 @@ var mongoose = require('mongoose'),
   Player = mongoose.model('Player'),
   async = require('async');
 
+exports.all = function(req, res) {
+  Game.find({'played': true}).exec(function(err, games) {
+    if (err) {
+      return res.json(500, {
+        error: 'fucked up grabbing dem games'
+      });
+    }
+    res.json(games);
+  });
+};
+
 exports.logGame = function(req, res, next) {
   var loggedGame = req.body;
 
