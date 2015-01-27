@@ -55,3 +55,4 @@ modules/views/
 /public/build/
 
 .env
+dataJobs/
